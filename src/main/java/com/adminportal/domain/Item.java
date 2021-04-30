@@ -187,17 +187,5 @@ public class Item {
 		this.itemImage4 = itemImage4;
 	}
 
-
-
-
-
-
-
-
-	
-
-	
-
-	
 	
 }
