@@ -26,6 +26,27 @@ public class Item {
 	private double listPrice;
 	private double ourPrice;
 	private boolean active=true;
+	@Column(columnDefinition="text")
+	private String description;
+	private int inStockNumber;
+	
+	@Transient
+	private MultipartFile itemImage;
+	
+	@Transient
+	private MultipartFile itemImage2;
+	
+	@Transient
+	private MultipartFile itemImage3;
+	
+	@Transient
+	private MultipartFile itemImage4;
+	
+	
+	@OneToMany(mappedBy = "item")
+	@JsonIgnore
+	private List<ItemToCartItem> itemToCartItemList;
+
 	
 	public Long getId() {
 		return id;
@@ -137,17 +158,43 @@ public class Item {
 	}
 
 
-	@Column(columnDefinition="text")
-	private String description;
-	private int inStockNumber;
+	public MultipartFile getItemImage2() {
+		return itemImage2;
+	}
+
+
+	public void setItemImage2(MultipartFile itemImage2) {
+		this.itemImage2 = itemImage2;
+	}
+
+
+	public MultipartFile getItemImage3() {
+		return itemImage3;
+	}
+
+
+	public void setItemImage3(MultipartFile itemImage3) {
+		this.itemImage3 = itemImage3;
+	}
+
+
+	public MultipartFile getItemImage4() {
+		return itemImage4;
+	}
+
+
+	public void setItemImage4(MultipartFile itemImage4) {
+		this.itemImage4 = itemImage4;
+	}
+
+
+
+
+
+
+
+
 	
-	@Transient
-	private MultipartFile itemImage;
-	
-	
-	@OneToMany(mappedBy = "item")
-	@JsonIgnore
-	private List<ItemToCartItem> itemToCartItemList;
 
 	
 

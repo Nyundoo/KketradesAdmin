@@ -154,6 +154,69 @@
 		<!-- data table -->
 		<script th:src="@{/js/jquery.dataTables.min.js}"></script>
 		<script th:src="@{/js/dataTables.bootstrap.min.js}"></script>
+		
+		<script>
+		$(document).ready(function(){
+			$('#itemImage').change(function(){
+				showImageThumbnail(this);
+			});
+			
+			$('#itemImage2').change(function(){
+				showImageThumbnail2(this);
+			});
+			
+			$('#itemImage3').change(function(){
+				showImageThumbnail3(this);
+			});
+			
+			$('#itemImage4').change(function(){
+				showImageThumbnail4(this);
+			});
+			
+		});
+		
+		
+		function showImageThumbnail(fileInput) {
+			file = fileInput.files[0];
+			reader = new FileReader();
+			
+			reader.onload = function(e) {
+				$('#thumbnail').attr('src', e.target.result);
+			};
+			reader.readAsDataURL(file);
+		}
+		
+		function showImageThumbnail2(fileInput) {
+			file = fileInput.files[0];
+			reader = new FileReader();
+			
+			reader.onload = function(e) {
+				$('#thumbnail2').attr('src', e.target.result);
+			};
+			reader.readAsDataURL(file);
+		}
+		
+		function showImageThumbnail3(fileInput) {
+			file = fileInput.files[0];
+			reader = new FileReader();
+			
+			reader.onload = function(e) {
+				$('#thumbnail3').attr('src', e.target.result);
+			};
+			reader.readAsDataURL(file);
+		}
+		
+		function showImageThumbnail4(fileInput) {
+			file = fileInput.files[0];
+			reader = new FileReader();
+			
+			reader.onload = function(e) {
+				$('#thumbnail4').attr('src', e.target.result);
+			};
+			reader.readAsDataURL(file);
+		}
+					
+		</script>
 	</div>
 </body>
 </html>

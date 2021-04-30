@@ -51,6 +51,45 @@ public class ItemController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		MultipartFile itemImage2 = item.getItemImage2();
+
+		try {
+			byte[] bytes = itemImage2.getBytes();
+			String name = item.getId() + ".jpg";
+			BufferedOutputStream stream = new BufferedOutputStream(
+					new FileOutputStream(new File("src/main/resources/static/image/item2/" + name)));
+			stream.write(bytes);
+			stream.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		MultipartFile itemImage3 = item.getItemImage3();
+
+		try {
+			byte[] bytes = itemImage3.getBytes();
+			String name = item.getId() + ".jpg";
+			BufferedOutputStream stream = new BufferedOutputStream(
+					new FileOutputStream(new File("src/main/resources/static/image/item3/" + name)));
+			stream.write(bytes);
+			stream.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		MultipartFile itemImage4 = item.getItemImage4();
+
+		try {
+			byte[] bytes = itemImage4.getBytes();
+			String name = item.getId() + ".jpg";
+			BufferedOutputStream stream = new BufferedOutputStream(
+					new FileOutputStream(new File("src/main/resources/static/image/item4/" + name)));
+			stream.write(bytes);
+			stream.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		return "redirect:itemList";
 	}
