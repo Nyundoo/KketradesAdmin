@@ -3,7 +3,7 @@
  */
 
 $(document).ready(function() {
-	$('.delete-item').on('click', function (){
+	$('.delete-customer').on('click', function (){
 		/*<![CDATA[*/
 	    var path = /*[[@{/}]]*/'remove';
 	    /*]]>*/
@@ -11,7 +11,7 @@ $(document).ready(function() {
 		var id=$(this).attr('id');
 		
 		bootbox.confirm({
-			message: "Are you sure to remove this item? It can't be undone.",
+			message: "Are you sure to remove this customer? It can't be undone.",
 			buttons: {
 				cancel: {
 					label:'<i class="fa fa-times"></i> Cancel'
@@ -32,33 +32,33 @@ $(document).ready(function() {
 	
 	
 	
-//	$('.checkboxItem').click(function () {
+//	$('.checkboxCustomer').click(function () {
 //        var id = $(this).attr('id');
 //        if(this.checked){
-//            itemIdList.push(id);
+//            customerIdList.push(id);
 //        }
 //        else {
-//            itemIdList.splice(itemIdList.indexOf(id), 1);
+//            customerIdList.splice(customerIdList.indexOf(id), 1);
 //        }
 //    })
 	
 	$('#deleteSelected').click(function() {
-		var idList= $('.checkboxItem');
-		var itemIdList=[];
+		var idList= $('.checkboxCustomer');
+		var customerIdList=[];
 		for (var i = 0; i < idList.length; i++) {
 			if(idList[i].checked==true) {
-				itemIdList.push(idList[i]['id'])
+				customerIdList.push(idList[i]['id'])
 			}
 		}
 		
-		console.log(itemIdList);
+		console.log(customerIdList);
 		
 		/*<![CDATA[*/
 	    var path = /*[[@{/}]]*/'removeList';
 	    /*]]>*/
 	    
 	    bootbox.confirm({
-			message: "Are you sure to remove all selected items? It can't be undone.",
+			message: "Are you sure to remove all selected customers? It can't be undone.",
 			buttons: {
 				cancel: {
 					label:'<i class="fa fa-times"></i> Cancel'
@@ -72,7 +72,7 @@ $(document).ready(function() {
 					$.ajax({
 						type: 'POST',
 						url: path,
-						data: JSON.stringify(itemIdList),
+						data: JSON.stringify(customerIdList),
 						contentType: "application/json",
 						success: function(res) {
 							console.log(res); 
@@ -88,11 +88,11 @@ $(document).ready(function() {
 		});
 	});
 	
-	$("#selectAllItems").click(function() {
+	$("#selectAllCustomers").click(function() {
 		if($(this).prop("checked")==true) {
-			$(".checkboxItem").prop("checked",true);
+			$(".checkboxCustomer").prop("checked",true);
 		} else if ($(this).prop("checked")==false) {
-			$(".checkboxItem").prop("checked",false);
+			$(".checkboxCustomer").prop("checked",false);
 		}
 	})
 });

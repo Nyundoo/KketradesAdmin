@@ -151,6 +151,62 @@ public class ItemController {
 			}
 		}
 		
+MultipartFile itemImage2 = item.getItemImage2();
+		
+		if(!itemImage2.isEmpty()) {
+			try {
+				byte[] bytes = itemImage2.getBytes();
+				String name = item.getId() + ".jpg";
+				
+				Files.delete(Paths.get("src/main/resources/static/image/item2/"+name));
+				
+				BufferedOutputStream stream = new BufferedOutputStream(
+						new FileOutputStream(new File("src/main/resources/static/image/item2/" + name)));
+				stream.write(bytes);
+				stream.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+MultipartFile itemImage3 = item.getItemImage3();
+		
+		if(!itemImage3.isEmpty()) {
+			try {
+				byte[] bytes = itemImage3.getBytes();
+				String name = item.getId() + ".jpg";
+				
+				Files.delete(Paths.get("src/main/resources/static/image/item3/"+name));
+				
+				BufferedOutputStream stream = new BufferedOutputStream(
+						new FileOutputStream(new File("src/main/resources/static/image/item3/" + name)));
+				stream.write(bytes);
+				stream.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+MultipartFile itemImage4 = item.getItemImage4();
+		
+		if(!itemImage4.isEmpty()) {
+			try {
+				byte[] bytes = itemImage4.getBytes();
+				String name = item.getId() + ".jpg";
+				
+				Files.delete(Paths.get("src/main/resources/static/image/item4/"+name));
+				
+				BufferedOutputStream stream = new BufferedOutputStream(
+						new FileOutputStream(new File("src/main/resources/static/image/item4/" + name)));
+				stream.write(bytes);
+				stream.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		
 		return "redirect:/item/itemInfo?id="+item.getId();
 	}
 }
