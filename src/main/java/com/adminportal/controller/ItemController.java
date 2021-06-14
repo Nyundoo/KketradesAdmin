@@ -3,6 +3,7 @@ package com.adminportal.controller;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.adminportal.domain.Item;
 import com.adminportal.service.ItemService;
+import com.adminportal.utility.FileuploadUtil;
 
 @Controller
 @RequestMapping("/item")
@@ -36,8 +39,31 @@ public class ItemController {
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String addItemPost(@ModelAttribute("item") Item item, HttpServletRequest request) {
-		itemService.save(item);
+	public String addItemPost(@ModelAttribute("item") Item item, HttpServletRequest request, 
+			@RequestParam("primaryImage") MultipartFile mainMultipartFile,
+			@RequestParam("extraImage") MultipartFile[] extraMultipartFiles) throws IOException {
+		String mainImageName = StringUtils.cleanPath(mainMultipartFile.getOriginalFilename());
+		item.setMainImage(mainImageName);
+		int count = 0;
+		for (MultipartFile extraMultipart : extraMultipartFiles) {
+			String extraImageName = StringUtils.cleanPath(extraMultipart.getOriginalFilename());
+			if (count == 0) item.setExtraImage1(extraImageName);
+			if (count == 1) item.setExtraImage2(extraImageName);
+			if (count == 2) item.setExtraImage3(extraImageName);
+			
+			count++;
+		}
+		
+		Item savedItem = itemService.save(item);
+		
+		String uploadDir = "./item-images/" + savedItem.getId();
+		
+		FileuploadUtil.saveFile(uploadDir, mainMultipartFile, mainImageName);
+		
+		for (MultipartFile extraMultipart : extraMultipartFiles) {
+			String fileName = StringUtils.cleanPath(extraMultipart.getOriginalFilename());
+			FileuploadUtil.saveFile(uploadDir, extraMultipart, fileName);
+		}
 
 		MultipartFile itemImage = item.getItemImage();
 
@@ -45,7 +71,7 @@ public class ItemController {
 			byte[] bytes = itemImage.getBytes();
 			String name = item.getId() + ".jpg";
 			BufferedOutputStream stream = new BufferedOutputStream(
-					new FileOutputStream(new File("src/main/resources/static/image/item1/" + name)));
+					new FileOutputStream(new File("/item-images/item1/" + name)));
 			stream.write(bytes);
 			stream.close();
 		} catch (Exception e) {
@@ -58,7 +84,7 @@ public class ItemController {
 			byte[] bytes = itemImage2.getBytes();
 			String name = item.getId() + ".jpg";
 			BufferedOutputStream stream = new BufferedOutputStream(
-					new FileOutputStream(new File("src/main/resources/static/image/item2/" + name)));
+					new FileOutputStream(new File("/item-images/item2/" + name)));
 			stream.write(bytes);
 			stream.close();
 		} catch (Exception e) {
@@ -71,7 +97,7 @@ public class ItemController {
 			byte[] bytes = itemImage3.getBytes();
 			String name = item.getId() + ".jpg";
 			BufferedOutputStream stream = new BufferedOutputStream(
-					new FileOutputStream(new File("src/main/resources/static/image/item3/" + name)));
+					new FileOutputStream(new File("target/item-images/item3/" + name)));
 			stream.write(bytes);
 			stream.close();
 		} catch (Exception e) {
@@ -84,7 +110,7 @@ public class ItemController {
 			byte[] bytes = itemImage4.getBytes();
 			String name = item.getId() + ".jpg";
 			BufferedOutputStream stream = new BufferedOutputStream(
-					new FileOutputStream(new File("src/main/resources/static/image/item4/" + name)));
+					new FileOutputStream(new File("target/item-images/item4/" + name)));
 			stream.write(bytes);
 			stream.close();
 		} catch (Exception e) {

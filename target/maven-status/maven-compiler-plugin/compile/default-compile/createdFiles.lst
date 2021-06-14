@@ -20,6 +20,7 @@ com/adminportal/service/ItemService.class
 com/adminportal/domain/ItemToCartItem.class
 com/adminportal/service/impl/ItemServiceImpl.class
 com/adminportal/domain/UserPayment.class
+com/adminportal/utility/FileuploadUtil.class
 com/adminportal/service/impl/UserSecurityService.class
 com/adminportal/controller/ItemController.class
 com/adminportal/controller/HomeController.class

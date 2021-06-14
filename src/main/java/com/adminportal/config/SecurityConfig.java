@@ -1,5 +1,8 @@
 package com.adminportal.config;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -10,6 +13,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.adminportal.service.impl.UserSecurityService;
 import com.adminportal.utility.SecurityUtility;
@@ -20,7 +25,7 @@ import com.adminportal.utility.SecurityUtility;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled=true)
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
 	@Autowired
 	private Environment env;
 
@@ -38,6 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			"/newUser",
 			"/forgetPassword",
 			"/login",
+			"/item-images",
 			"/fonts/**"
 	};
 
@@ -61,6 +67,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.rememberMe();
 	}
 	
+	@Override
+	public void addResourceHandlers(final ResourceHandlerRegistry registry) {
+		Path itemUploadDir = Paths.get("./item-images");
+		String itemUploadPath = itemUploadDir.toFile().getAbsolutePath();
+		
+	    registry.addResourceHandler("/item-images/**")
+	            .addResourceLocations("file:/" + itemUploadPath + "/");
+	}
+
+
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userSecurityService).passwordEncoder(passwordEncoder());
