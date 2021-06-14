@@ -187,5 +187,11 @@ public class Item {
 		this.itemImage4 = itemImage4;
 	}
 
+	@Transient
+	public String getMainImagePath1() {
+		if(id == null) return null;
+		
+		return "/item-images/item1/" + id;
+	}
 	
 }

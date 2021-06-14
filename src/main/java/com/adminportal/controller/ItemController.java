@@ -45,7 +45,7 @@ public class ItemController {
 			byte[] bytes = itemImage.getBytes();
 			String name = item.getId() + ".jpg";
 			BufferedOutputStream stream = new BufferedOutputStream(
-					new FileOutputStream(new File("src/main/resources/static/image/item/" + name)));
+					new FileOutputStream(new File("item-images/item1/" + name)));
 			stream.write(bytes);
 			stream.close();
 		} catch (Exception e) {
@@ -58,7 +58,7 @@ public class ItemController {
 			byte[] bytes = itemImage2.getBytes();
 			String name = item.getId() + ".jpg";
 			BufferedOutputStream stream = new BufferedOutputStream(
-					new FileOutputStream(new File("src/main/resources/static/image/item2/" + name)));
+					new FileOutputStream(new File("item-images/item2/" + name)));
 			stream.write(bytes);
 			stream.close();
 		} catch (Exception e) {
@@ -71,7 +71,7 @@ public class ItemController {
 			byte[] bytes = itemImage3.getBytes();
 			String name = item.getId() + ".jpg";
 			BufferedOutputStream stream = new BufferedOutputStream(
-					new FileOutputStream(new File("src/main/resources/static/image/item3/" + name)));
+					new FileOutputStream(new File("item-images/item3/" + name)));
 			stream.write(bytes);
 			stream.close();
 		} catch (Exception e) {
@@ -84,7 +84,7 @@ public class ItemController {
 			byte[] bytes = itemImage4.getBytes();
 			String name = item.getId() + ".jpg";
 			BufferedOutputStream stream = new BufferedOutputStream(
-					new FileOutputStream(new File("src/main/resources/static/image/item4/" + name)));
+					new FileOutputStream(new File("item-images/item4/" + name)));
 			stream.write(bytes);
 			stream.close();
 		} catch (Exception e) {

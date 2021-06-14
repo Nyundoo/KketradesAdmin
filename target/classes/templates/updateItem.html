@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Bootstrap core CSS -->
+<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+<link th:href="@{/css/loginx.css}" rel="stylesheet" />
+
+<!-- Custom styles for this template -->
+
+
+<!-- data table -->
+<link th:href="@{/css/jquery.dataTables.min.css}" rel="stylesheet" />
+<link th:href="@{/css/dataTables.bootstrap.min.css}" rel="stylesheet" />
+
+<link th:href="@{/css/font-awesome.min.css}" rel="stylesheet" />
+
+<script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+<script>tinymce.init({ selector:'textarea' });</script>
+
+<link rel="icon" href="/image/applie-touch-icon.png" />
+<style>
+* {
+  box-sizing: border-box;
+}
+
+input[type=text], select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+
+input[type=submit] {
+  background-color: #04AA6D;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+.container {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+
+.col-25 {
+  float: left;
+  width: 25%;
+  margin-top: 6px;
+}
+
+.col-75 {
+  float: left;
+  width: 75%;
+  margin-top: 6px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .col-25, .col-75, input[type=submit] {
+    width: 100%;
+    margin-top: 0;
+  }
+}
+</style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+   <a class="navbar-brand" th:href="@{/}">Worker Portal</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+ 
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" th:href="@{/customer/add}">Add a new customer</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/customer/customerList}">View customer list</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/logout}">Sign out</a>
+      </li>
+      
+    </ul>
+  </div>
+</nav>
+
+<div class="container">
+		<div class="row">
+			<form class="form-horizontal" th:action="@{/item/updateItem}" method="post"
+				enctype="multipart/form-data">
+				<fieldset>
+					<legend class="center-block">
+						Update item Information<span style="font-size: small"> * is a
+							required field</span>
+					</legend>
+					
+					<input hidden="hidden" name="id" th:value="${item.id}" />
+
+
+					<!-- title -->
+					<div class="form-group">
+						<label class="col-md-2 control-label" for="title">* Title</label>
+
+						<div class="col-md-8">
+							<input type="text" name="title" class="form-control" id="title"
+								th:value="${item.title}" required="required" placeholder="Title" />
+							<span class="help-block">Title of the item</span>
+						</div>
+					</div>
+
+					<!-- category -->
+					<div class="form-group">
+						<label class="col-md-2 control-label" for="category">*
+							Category</label>
+						<div class="col-md-8">
+							<select th:value="${item.category}" id="category" name="category"
+								class="form-control">
+								<option value="" selected="selected" disabled="disabled">Please
+									select an option...</option>
+								<option value="Fasteners"
+									th:selected="(${item.category}=='Fasteners')">Fasteners</option>
+								<option value="Building materials"
+									th:selected="(${item.category}=='Building materials')">Building materials</option>
+								<option value="Hand tools"
+									th:selected="(${item.category}=='Hand tools')">Hand tools</option>
+								<option value="Power tools"
+									th:selected="(${item.category}=='Power tools')">Power tools</option>
+								<option value="Locks"
+									th:selected="(${item.category}=='Locks')">Locks</option>
+									<option value="Hinges"
+									th:selected="(${item.category}=='Hinges')">Hinges</option>
+									<option value="Plumbing supplies"
+									th:selected="(${item.category}=='Plumbing supplies')">Plumbing supplies</option>
+									<option value="Electrical supplies"
+									th:selected="(${item.category}=='Electrical supplies')">Electrical supplies</option>
+									<option value="Clean products"
+									th:selected="(${item.category}=='Clean products')">Clean products</option>
+									<option value="Tools utensils"
+									th:selected="(${item.category}=='Tools utensils')">Tools utensils</option>
+									<option value="Paints"
+									th:selected="(${item.category}=='Paints')">Lawn &amp; garden products</option>
+							</select>
+						</div>
+					</div>
+
+					<!-- shipping weight -->
+					<div class="form-group">
+						<label class="col-md-2 control-label" for="shippingWeight">Shipping
+							Weight</label>
+						<div class="col-md-8">
+							<div class="input-group">
+								<input th:value="${item.shippingWeight}" type="number" step="0.01"
+									name="shippingWeight" class="form-control" id="shippingWeight"
+									placeholder="Shipping Weight" /> <span
+									class="input-group-addon">Ounces</span>
+							</div>
+							<span class="help-block">Shipping Weight of the item</span>
+						</div>
+					</div>
+
+					<!-- list price -->
+					<div class="form-group">
+						<label class="col-md-2 control-label" for="listPrice">List
+							Price</label>
+						<div class="col-md-8">
+							<div class="input-group">
+								<span class="input-group-addon">$</span> <input
+									th:value="${item.listPrice}" type="number" name="listPrice" step="0.01"
+									class="form-control" id="listPrice" placeholder="List Price" />
+							</div>
+							<span class="help-block">List price of the item</span>
+						</div>
+					</div>
+
+					<!-- our price -->
+					<div class="form-group">
+						<label class="col-md-2 control-label" for="ourPrice">Our
+							Price</label>
+						<div class="col-md-8">
+							<div class="input-group">
+								<span class="input-group-addon">$</span> <input
+									th:value="${item.ourPrice}" type="number" name="ourPrice" step="0.01"
+									class="form-control" id="ourPrice" placeholder="Our Price" />
+							</div>
+							<span class="help-block">Our price of the item</span>
+						</div>
+					</div>
+
+					<!-- in stock number -->
+					<div class="form-group">
+						<label class="col-md-2 control-label" for="inStockNumber">Number
+							in stock</label>
+						<div class="col-md-8">
+							<input th:value="${item.inStockNumber}" type="number"
+								name="inStockNumber" class="form-control" id="inStockNumber"
+								placeholder="Number of in-stock copies" /> <span
+								class="help-block">Number of in-stock copies</span>
+						</div>
+					</div>
+
+					<!-- status of item -->
+					<div class="form-group">
+						<label class="col-md-2 control-label" for="status">Status</label>
+						<div class="col-md-8">
+							<label><input value="true" type="radio" name="active"
+								th:checked="${item.active}" /> Active </label> <label><input
+								value="false" type="radio" name="active" th:checked="${!item.active}"/>
+								Inactive </label> <span class="help-block">Whether the item is
+								active or inactive</span>
+						</div>
+					</div>
+
+					<!-- description -->
+					<div class="form-group">
+						<label class="col-md-2 control-label" for="description">Description</label>
+						<div class="col-md-8">
+							<textarea name="description" rows="5" class="form-control"
+								id="description" th:value="${item.description}" th:text="${item.description}"
+								placeholder="Description"></textarea>
+							<span class="help-block">Description of the item</span>
+						</div>
+					</div>
+
+					<!-- upload image1 -->
+					<div class="form-group">
+						<div class="col-md-2">
+							<label for="itemImage">Upload item image1</label>
+						</div>
+						<div class="col-md-8">
+						<img alt="Main Image preview" id="thumbnail" style="width:200px; height:200px;" />
+							<input id="itemImage" type="file" name="itemImage"
+								th:value="${item.itemImage}" />
+						</div>
+					</div>
+					<!-- upload image2 -->
+					<div class="form-group">
+						<div class="col-md-2">
+							<label for="itemImage2">Upload item image2</label>
+						</div>
+						<div class="col-md-8">
+						<img alt="Main Image preview 2" id="thumbnail2" style="width:200px; height:200px;" />
+							<input id="itemImage2" type="file" name="itemImage2"
+								th:value="${item.itemImage2}" />
+						</div>
+					</div>
+					<!-- upload image3 -->
+					<div class="form-group">
+						<div class="col-md-2">
+							<label for="itemImag3e">Upload item image3</label>
+						</div>
+						<div class="col-md-8">
+						<img alt="Main Image preview 2" id="thumbnail3" style="width:200px; height:200px;" />
+							<input id="itemImage3" type="file" name="itemImage3"
+								th:value="${item.itemImage3}" />
+						</div>
+					</div>
+					<!-- upload image4 -->
+					<div class="form-group">
+						<div class="col-md-2">
+							<label for="itemImage4">Upload item image4</label>
+						</div>
+						<div class="col-md-8">
+						<img alt="Main Image preview 2" id="thumbnail4" style="width:200px; height:200px;" />
+							<input id="itemImage4" type="file" name="itemImage4"
+								th:value="${item.itemImage4}" />
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="col-md-2"></div>
+						<div class="col-md-8">
+							<button type="submit" class="btn btn-success">Update item</button>
+							<a class="btn btn-danger" th:href="@{/item/itemInfo(id=${item.id})}">Cancel</a>
+						</div>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+	</div>
+
+</body>
+
+<script th:src="@{/js/jquery.min.js}"></script>
+		<script th:src="@{/js/bootstrap.min.js}"></script>
+		<script th:src="@{/js/bootbox.min.js}"></script>
+		<script th:src="@{/js/scripts.js}"></script>
+		
+		<!-- data table -->
+		<script th:src="@{/js/jquery.dataTables.min.js}"></script>
+		<script th:src="@{/js/dataTables.bootstrap.min.js}"></script>
+		
+		<script>
+		$(document).ready(function(){
+			$('#itemImage').change(function(){
+				showImageThumbnail(this);
+			});
+			
+			$('#itemImage2').change(function(){
+				showImageThumbnail2(this);
+			});
+			
+			$('#itemImage3').change(function(){
+				showImageThumbnail3(this);
+			});
+			
+			$('#itemImage4').change(function(){
+				showImageThumbnail4(this);
+			});
+			
+		});
+		
+		
+		function showImageThumbnail(fileInput) {
+			file = fileInput.files[0];
+			reader = new FileReader();
+			
+			reader.onload = function(e) {
+				$('#thumbnail').attr('src', e.target.result);
+			};
+			reader.readAsDataURL(file);
+		}
+		
+		function showImageThumbnail2(fileInput) {
+			file = fileInput.files[0];
+			reader = new FileReader();
+			
+			reader.onload = function(e) {
+				$('#thumbnail2').attr('src', e.target.result);
+			};
+			reader.readAsDataURL(file);
+		}
+		
+		function showImageThumbnail3(fileInput) {
+			file = fileInput.files[0];
+			reader = new FileReader();
+			
+			reader.onload = function(e) {
+				$('#thumbnail3').attr('src', e.target.result);
+			};
+			reader.readAsDataURL(file);
+		}
+		
+		function showImageThumbnail4(fileInput) {
+			file = fileInput.files[0];
+			reader = new FileReader();
+			
+			reader.onload = function(e) {
+				$('#thumbnail4').attr('src', e.target.result);
+			};
+			reader.readAsDataURL(file);
+		}
+					
+		</script>
+</html>
+
+
