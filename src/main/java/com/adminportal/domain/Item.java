@@ -235,10 +235,10 @@ public class Item {
 
 
 	@Transient
-	public String getMainImagePath1() {
-		if(id == null) return null;
+	public String getMainImagePath() {
+		if(id == null || mainImage == null) return null;
 		
-		return "/resources/item-images/item1/" + id;
+		return "/item-images/" + id + "/" + mainImage;
 	}
 	
 }

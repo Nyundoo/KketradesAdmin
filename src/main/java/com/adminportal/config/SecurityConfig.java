@@ -43,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
 			"/newUser",
 			"/forgetPassword",
 			"/login",
-			"/item-images",
+			"/item-images/**",
 			"/fonts/**"
 	};
 
@@ -75,7 +75,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
 	    registry.addResourceHandler("/item-images/**")
 	            .addResourceLocations("file:/" + itemUploadPath + "/");
 	}
-
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
