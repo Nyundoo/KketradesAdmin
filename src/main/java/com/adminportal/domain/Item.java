@@ -191,7 +191,7 @@ public class Item {
 	public String getMainImagePath1() {
 		if(id == null) return null;
 		
-		return "/item-images/item1/" + id;
+		return "/resources/item-images/item1/" + id;
 	}
 	
 }

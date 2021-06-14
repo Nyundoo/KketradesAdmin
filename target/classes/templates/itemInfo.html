@@ -116,7 +116,7 @@ input[type=submit]:hover {
 			<div class="col-xs-3">
 				<div class="panel panel-default">
 				<div class="panel-body">
-					<img th:src="${item.getMainImagePath1}+'.jpg'" class="img-responsive center-block" />
+					<img th:src="@{/image/item1/}+${item.id}+'.jpg'" class="img-responsive center-block" />
 				</div>
 				</div>
 			</div>
