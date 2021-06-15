@@ -72,8 +72,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
 		Path itemUploadDir = Paths.get("./item-images");
 		String itemUploadPath = itemUploadDir.toFile().getAbsolutePath();
 		
-	    registry.addResourceHandler("/item-images/**")
-	            .addResourceLocations("file:/" + itemUploadPath + "/");
+	    registry.addResourceHandler("/item-images/**").addResourceLocations("file:" + itemUploadPath + "/");
 	}
 
 	@Autowired
