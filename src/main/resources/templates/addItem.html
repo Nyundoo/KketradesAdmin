@@ -227,8 +227,8 @@ input[type=submit]:hover {
 						<label class="col-md-2 control-label" for="status">Status</label>
 						<div class="col-md-8">
 							<label><input value="true" type="radio" name="active"
-								checked="checked" /> Active </label> <label><input
-								value="false" type="radio" name="active" />
+								th:checked="${item.active}" /> Active </label> <label><input
+								value="false" type="radio" th:checked="${!item.active}" name="active" />
 								Inactive </label> <span class="help-block">Whether the item is
 								active or inactive</span>
 						</div>
@@ -239,7 +239,7 @@ input[type=submit]:hover {
 						<label class="col-md-2 control-label" for="description">Description</label>
 						<div class="col-md-8">
 							<textarea name="description" rows="5" class="form-control"
-								id="description" th:value="${item.description}"
+								id="description" th:utext="${item.description}"
 								placeholder="Description"></textarea>
 							<span class="help-block">Description of the item</span>
 						</div>
@@ -252,7 +252,8 @@ input[type=submit]:hover {
 						</div>
 						<div class="col-md-8">
 						<img alt="Main Image preview" id="thumbnail" style="width:200px; height:200px;" />
-							<input type="file" name="primaryImage" id="primaryImage" accept="image/png, image/jpeg" />
+							<input id="itemImage" type="file" name="itemImage"
+								th:value="${item.itemImage}" />
 						</div>
 					</div>
 					<!-- upload image2 -->
@@ -261,8 +262,9 @@ input[type=submit]:hover {
 							<label for="itemImage2">Upload item image2</label>
 						</div>
 						<div class="col-md-8">
-						<img alt="extraImage preview 1" id="thumbnail0" style="width:200px; height:200px;" />
-						<input  type="file" name="extraImage" accept="image/png, image/jpeg" />
+						<img alt="Main Image preview 2" id="thumbnail2" style="width:200px; height:200px;" />
+							<input id="itemImage2" type="file" name="itemImage2"
+								th:value="${item.itemImage2}" />
 						</div>
 					</div>
 					<!-- upload image3 -->
@@ -271,8 +273,9 @@ input[type=submit]:hover {
 							<label for="itemImag3e">Upload item image3</label>
 						</div>
 						<div class="col-md-8">
-						<img alt="extraImage preview 2" id="thumbnail1" style="width:200px; height:200px;" />
-						<input  type="file" name="extraImage" accept="image/png, image/jpeg" />
+						<img alt="Main Image preview 2" id="thumbnail3" style="width:200px; height:200px;" />
+							<input id="itemImage3" type="file" name="itemImage3"
+								th:value="${item.itemImage3}" />
 						</div>
 					</div>
 					<!-- upload image4 -->
@@ -281,8 +284,9 @@ input[type=submit]:hover {
 							<label for="itemImage4">Upload item image4</label>
 						</div>
 						<div class="col-md-8">
-						<img alt="extraImage preview 3" id="thumbnail2" style="width:200px; height:200px;" />
-						<input  type="file" name="extraImage" accept="image/png, image/jpeg" />
+						<img alt="Main Image preview 2" id="thumbnail4" style="width:200px; height:200px;" />
+							<input id="itemImage4" type="file" name="itemImage4"
+								th:value="${item.itemImage4}" />
 						</div>
 					</div>
 
@@ -310,39 +314,66 @@ input[type=submit]:hover {
 		<script th:src="@{/js/dataTables.bootstrap.min.js}"></script>
 		
 		<script>
-		$(document).ready(function(){
-			$('#primaryImage').change(function(){
-				showImageThumbnail(this);
+			$(document).ready(function(){
+				$('#itemImage').change(function(){
+					showImageThumbnail(this);
+				});
+				
+				$('#itemImage2').change(function(){
+					showImageThumbnail2(this);
+				});
+				
+				$('#itemImage3').change(function(){
+					showImageThumbnail3(this);
+				});
+				
+				$('#itemImage4').change(function(){
+					showImageThumbnail4(this);
+				});
+				
 			});
 			
-			$("input[name='extraImage']").each(function(index){
-				$(this).change(function(){
-					showExtraImageThumbnail(this, index);
-				});
-			});			
 			
-		});
-		
-		
-		function showImageThumbnail(fileInput) {
-			file = fileInput.files[0];
-			reader = new FileReader();
+			function showImageThumbnail(fileInput) {
+				file = fileInput.files[0];
+				reader = new FileReader();
+				
+				reader.onload = function(e) {
+					$('#thumbnail').attr('src', e.target.result);
+				};
+				reader.readAsDataURL(file);
+			}
 			
-			reader.onload = function(e) {
-				$('#thumbnail').attr('src', e.target.result);
-			};
-			reader.readAsDataURL(file);
-		}
-		
-		function showExtraImageThumbnail(fileInput, index) {
-			file = fileInput.files[0];
-			reader = new FileReader();
+			function showImageThumbnail2(fileInput) {
+				file = fileInput.files[0];
+				reader = new FileReader();
+				
+				reader.onload = function(e) {
+					$('#thumbnail2').attr('src', e.target.result);
+				};
+				reader.readAsDataURL(file);
+			}
 			
-			reader.onload = function(e) {
-				$('#thumbnail' + index).attr('src', e.target.result);
-			};
-			reader.readAsDataURL(file);
-		}					
-		</script>
+			function showImageThumbnail3(fileInput) {
+				file = fileInput.files[0];
+				reader = new FileReader();
+				
+				reader.onload = function(e) {
+					$('#thumbnail3').attr('src', e.target.result);
+				};
+				reader.readAsDataURL(file);
+			}
+			
+			function showImageThumbnail4(fileInput) {
+				file = fileInput.files[0];
+				reader = new FileReader();
+				
+				reader.onload = function(e) {
+					$('#thumbnail4').attr('src', e.target.result);
+				};
+				reader.readAsDataURL(file);
+			}
+						
+			</script>
 </html>
 

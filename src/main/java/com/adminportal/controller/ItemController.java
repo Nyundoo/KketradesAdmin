@@ -3,7 +3,6 @@ package com.adminportal.controller;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -13,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.adminportal.domain.Item;
 import com.adminportal.service.ItemService;
-import com.adminportal.utility.FileuploadUtil;
 
 @Controller
 @RequestMapping("/item")
@@ -39,83 +36,63 @@ public class ItemController {
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String addItemPost(@ModelAttribute("item") Item item, HttpServletRequest request, 
-			@RequestParam("primaryImage") MultipartFile mainMultipartFile,
-			@RequestParam("extraImage") MultipartFile[] extraMultipartFiles) throws IOException {
-		String mainImageName = StringUtils.cleanPath(mainMultipartFile.getOriginalFilename());
-		item.setMainImage(mainImageName);
-		int count = 0;
-		for (MultipartFile extraMultipart : extraMultipartFiles) {
-			String extraImageName = StringUtils.cleanPath(extraMultipart.getOriginalFilename());
-			if (count == 0) item.setExtraImage1(extraImageName);
-			if (count == 1) item.setExtraImage2(extraImageName);
-			if (count == 2) item.setExtraImage3(extraImageName);
+	public String addItemPost(@ModelAttribute("item") Item item, HttpServletRequest request) {
+		itemService.save(item);
 			
-			count++;
-		}
-		
-		Item savedItem = itemService.save(item);
-		
-		String uploadDir = "./item-images/" + savedItem.getId();
-		
-		FileuploadUtil.saveFile(uploadDir, mainMultipartFile, mainImageName);
-		
-		for (MultipartFile extraMultipart : extraMultipartFiles) {
-			String fileName = StringUtils.cleanPath(extraMultipart.getOriginalFilename());
-			FileuploadUtil.saveFile(uploadDir, extraMultipart, fileName);
-		}
-
-		MultipartFile itemImage = item.getItemImage();
-
-		try {
-			byte[] bytes = itemImage.getBytes();
-			String name = item.getId() + ".jpg";
-			BufferedOutputStream stream = new BufferedOutputStream(
-					new FileOutputStream(new File("/item-images/item1/" + name)));
-			stream.write(bytes);
-			stream.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		MultipartFile itemImage2 = item.getItemImage2();
-
-		try {
-			byte[] bytes = itemImage2.getBytes();
-			String name = item.getId() + ".jpg";
-			BufferedOutputStream stream = new BufferedOutputStream(
-					new FileOutputStream(new File("/item-images/item2/" + name)));
-			stream.write(bytes);
-			stream.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		MultipartFile itemImage3 = item.getItemImage3();
-
-		try {
-			byte[] bytes = itemImage3.getBytes();
-			String name = item.getId() + ".jpg";
-			BufferedOutputStream stream = new BufferedOutputStream(
-					new FileOutputStream(new File("target/item-images/item3/" + name)));
-			stream.write(bytes);
-			stream.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		MultipartFile itemImage4 = item.getItemImage4();
-
-		try {
-			byte[] bytes = itemImage4.getBytes();
-			String name = item.getId() + ".jpg";
-			BufferedOutputStream stream = new BufferedOutputStream(
-					new FileOutputStream(new File("target/item-images/item4/" + name)));
-			stream.write(bytes);
-			stream.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+			MultipartFile itemImage = item.getItemImage();
+			MultipartFile itemImage2 = item.getItemImage2();
+			MultipartFile itemImage3 = item.getItemImage3();
+			MultipartFile itemImage4 = item.getItemImage4();
+			
+			
+				try {
+					byte[] bytes = itemImage.getBytes();
+					String name = item.getId() + ".jpg";
+					
+					BufferedOutputStream stream = new BufferedOutputStream(
+							new FileOutputStream(new File("./item-images/item1/" + name)));
+					stream.write(bytes);
+					stream.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			
+				try {
+					byte[] bytes = itemImage2.getBytes();
+					String name = item.getId() + ".jpg";
+					
+					BufferedOutputStream stream = new BufferedOutputStream(
+							new FileOutputStream(new File("./item-images/item2/" + name)));
+					stream.write(bytes);
+					stream.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			
+				try {
+					byte[] bytes = itemImage3.getBytes();
+					String name = item.getId() + ".jpg";
+					
+					BufferedOutputStream stream = new BufferedOutputStream(
+							new FileOutputStream(new File("./item-images/item3/" + name)));
+					stream.write(bytes);
+					stream.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			
+				try {
+					byte[] bytes = itemImage4.getBytes();
+					String name = item.getId() + ".jpg";
+					
+					BufferedOutputStream stream = new BufferedOutputStream(
+							new FileOutputStream(new File("./item-images/item4/" + name)));
+					stream.write(bytes);
+					stream.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			
 
 		return "redirect:itemList";
 	}
@@ -160,16 +137,19 @@ public class ItemController {
 		itemService.save(item);
 		
 		MultipartFile itemImage = item.getItemImage();
+		MultipartFile itemImage2 = item.getItemImage2();
+		MultipartFile itemImage3 = item.getItemImage3();
+		MultipartFile itemImage4 = item.getItemImage4();
 		
 		if(!itemImage.isEmpty()) {
 			try {
 				byte[] bytes = itemImage.getBytes();
 				String name = item.getId() + ".jpg";
 				
-				Files.delete(Paths.get("src/main/resources/static/image/item/"+name));
+				Files.delete(Paths.get("./item-images/item1/"+name));
 				
 				BufferedOutputStream stream = new BufferedOutputStream(
-						new FileOutputStream(new File("src/main/resources/static/image/item/" + name)));
+						new FileOutputStream(new File("./item-images/item1/" + name)));
 				stream.write(bytes);
 				stream.close();
 			} catch (Exception e) {
@@ -177,53 +157,46 @@ public class ItemController {
 			}
 		}
 		
-MultipartFile itemImage2 = item.getItemImage2();
 		
 		if(!itemImage2.isEmpty()) {
 			try {
 				byte[] bytes = itemImage2.getBytes();
 				String name = item.getId() + ".jpg";
 				
-				Files.delete(Paths.get("src/main/resources/static/image/item2/"+name));
+				Files.delete(Paths.get("./item-images/item2/"+name));
 				
 				BufferedOutputStream stream = new BufferedOutputStream(
-						new FileOutputStream(new File("src/main/resources/static/image/item2/" + name)));
+						new FileOutputStream(new File("./item-images/item2/" + name)));
 				stream.write(bytes);
 				stream.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		
-MultipartFile itemImage3 = item.getItemImage3();
-		
 		if(!itemImage3.isEmpty()) {
 			try {
 				byte[] bytes = itemImage3.getBytes();
 				String name = item.getId() + ".jpg";
 				
-				Files.delete(Paths.get("src/main/resources/static/image/item3/"+name));
+				Files.delete(Paths.get("./item-images/item3/"+name));
 				
 				BufferedOutputStream stream = new BufferedOutputStream(
-						new FileOutputStream(new File("src/main/resources/static/image/item3/" + name)));
+						new FileOutputStream(new File("./item-images/item3/" + name)));
 				stream.write(bytes);
 				stream.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		
-MultipartFile itemImage4 = item.getItemImage4();
-		
-		if(!itemImage4.isEmpty()) {
+			if(!itemImage4.isEmpty()) {
 			try {
 				byte[] bytes = itemImage4.getBytes();
 				String name = item.getId() + ".jpg";
 				
-				Files.delete(Paths.get("src/main/resources/static/image/item4/"+name));
+				Files.delete(Paths.get("./item-images/item4/"+name));
 				
 				BufferedOutputStream stream = new BufferedOutputStream(
-						new FileOutputStream(new File("src/main/resources/static/image/item4/" + name)));
+						new FileOutputStream(new File("./item-images/item4/" + name)));
 				stream.write(bytes);
 				stream.close();
 			} catch (Exception e) {

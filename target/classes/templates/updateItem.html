@@ -239,7 +239,7 @@ input[type=submit]:hover {
 						<label class="col-md-2 control-label" for="description">Description</label>
 						<div class="col-md-8">
 							<textarea name="description" rows="5" class="form-control"
-								id="description" th:value="${item.description}" th:text="${item.description}"
+								id="description" th:utext="${item.description}" th:text="${item.description}"
 								placeholder="Description"></textarea>
 							<span class="help-block">Description of the item</span>
 						</div>

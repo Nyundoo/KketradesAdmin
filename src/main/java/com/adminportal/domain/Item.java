@@ -236,9 +236,9 @@ public class Item {
 
 	@Transient
 	public String getMainImagePath() {
-		if(id == null || mainImage == null) return null;
+		if(id == null) return null;
 		
-		return "/item-images/" + id + "/" + mainImage;
+		return "/item-images/item1/" + id +".jpg";
 	}
 	
 }
