@@ -227,8 +227,8 @@ input[type=submit]:hover {
 						<label class="col-md-2 control-label" for="status">Status</label>
 						<div class="col-md-8">
 							<label><input value="true" type="radio" name="active"
-								checked="checked" /> Active </label> <label><input
-								value="false" type="radio" name="active" />
+								th:checked="${item.active}" /> Active </label> <label><input
+								value="false" type="radio" th:checked="${!item.active}" name="active" />
 								Inactive </label> <span class="help-block">Whether the item is
 								active or inactive</span>
 						</div>
